@@ -1,4 +1,6 @@
 require('dotenv').config();
+const http = require('http');
+http.createServer((req, res) => res.end('Bot 7/24 nobet basinda!')).listen(process.env.PORT || 3000);
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
