@@ -143,5 +143,8 @@ async function tumVitrinleriTara() {
   console.log("\n🏁 GÜNLÜK TARAMA BİTTİ. BOT UYKUYA GEÇİYOR!");
 }
 
-// Sistemi Test Et
-tumVitrinleriTara();
+// Her 5 günde bir gece saat 03:00'te çalıştır
+cron.schedule('0 3 */5 * *', () => {
+    console.log("⏰ Nöbet vakti geldi! 5 günlük tarama başlıyor...");
+    tumVitrinleriTara();
+});
