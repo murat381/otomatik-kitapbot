@@ -22,25 +22,22 @@ const HEDEFLER = [
   { 
     tur: "Bilim", 
     url: "https://www.sciencedaily.com/news/space_time/", 
-    linkSecici: ".latest-head a", // ScienceDaily için linklerin HTML konumu
+    linkSecici: "#list_tab_1 .latest-head a", 
     linkOnEki: "https://www.sciencedaily.com" 
   },
   { 
     tur: "Tarih", 
     url: "https://www.sciencedaily.com/news/fossils_ruins/ancient_civilizations/", 
-    linkSecici: ".latest-head a", 
+    linkSecici: "#list_tab_1 .latest-head a", 
     linkOnEki: "https://www.sciencedaily.com" 
   },
   { 
     tur: "Ekonomi", 
     // Kripto, piyasa ve fiyat hareketleri (Price Action) odaklı finans haberleri
     url: "https://www.sciencedaily.com/news/science_society/economics/", 
-    linkSecici: ".latest-head a", 
+    linkSecici: "#list_tab_1 .latest-head a", 
     linkOnEki: "https://www.sciencedaily.com" 
   }
-  // NOT: National Geographic veya CoinDesk gibi farklı siteler eklemek istersen, 
-  // o sitelerin 'linkSecici' HTML kodlarını (CSS Selector) bulup buraya yeni bir blok olarak ekleyebilirsin.
-  // Güvenlik kalkanlarına takılmamak için şimdilik en stabil kaynağın farklı alt sayfalarını kullanıyoruz.
 ];
 
 // ------------------------------------------------------------------
@@ -78,13 +75,20 @@ async function makaleIsle(hedefUrl, kategoriTuru) {
     let aiYaniti = result.response.text().replace(/```json/g, "").replace(/```/g, "").trim();
     const makaleVerisi = JSON.parse(aiYaniti);
 
+    // 📸 YENİ EKLENEN KISIM: Makalenin gerçek fotoğrafını bul!
+    let gercekResim = $('meta[property="og:image"]').attr('content');
+    if (!gercekResim) {
+      // Eğer sitede resim yoksa, boş kalmaması için varsayılan bir resim ata
+      gercekResim = "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=600&auto=format&fit=crop"; 
+    }
+
     const { data: kitapData, error: kitapError } = await supabase
       .from('kitaplar')
       .insert([{ 
         baslik: makaleVerisi.baslik, 
         seviye: makaleVerisi.seviye, 
-        tur: makaleVerisi.tur, // 🚀 Hedef listesinden gelen "Ekonomi", "Tarih" vb. buraya işleniyor!
-        kapak_gorseli: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=600&auto=format&fit=crop" 
+        tur: makaleVerisi.tur,
+        kapak_gorseli: gercekResim // Sabit linki sildik, yerine yakaladığımız resmi koyduk!
       }]).select();
 
     if (kitapError) throw kitapError;
