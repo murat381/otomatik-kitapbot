@@ -24,20 +24,19 @@ const HEDEFLER = [
   { 
     tur: "Bilim", 
     url: "https://www.sciencedaily.com/news/space_time/", 
-    linkSecici: "#list_tab_1 .latest-head a", 
+    linkSecici: ".col-md-8 .latest-head a, .col-sm-8 .latest-head a, .hero-col a", 
     linkOnEki: "https://www.sciencedaily.com" 
   },
   { 
     tur: "Tarih", 
     url: "https://www.sciencedaily.com/news/fossils_ruins/ancient_civilizations/", 
-    linkSecici: "#list_tab_1 .latest-head a", 
+    linkSecici: ".col-md-8 .latest-head a, .col-sm-8 .latest-head a, .hero-col a", 
     linkOnEki: "https://www.sciencedaily.com" 
   },
   { 
     tur: "Ekonomi", 
-    // Kripto, piyasa ve fiyat hareketleri (Price Action) odaklı finans haberleri
     url: "https://www.sciencedaily.com/news/science_society/economics/", 
-    linkSecici: "#list_tab_1 .latest-head a", 
+    linkSecici: ".col-md-8 .latest-head a, .col-sm-8 .latest-head a, .hero-col a", 
     linkOnEki: "https://www.sciencedaily.com" 
   }
 ];
@@ -152,3 +151,4 @@ cron.schedule('0 3 */5 * *', () => {
     console.log("⏰ Nöbet vakti geldi! 5 günlük tarama başlıyor...");
     tumVitrinleriTara();
 });
+
