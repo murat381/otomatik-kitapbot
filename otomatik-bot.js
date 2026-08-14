@@ -1,4 +1,6 @@
 require('dotenv').config();
+const http = require('http');
+http.createServer((req, res) => res.end('Bot 7/24 nobet basinda!')).listen(process.env.PORT || 3000);
 const axios = require('axios');
 const cheerio = require('cheerio');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
@@ -145,5 +147,8 @@ async function tumVitrinleriTara() {
   console.log("\n🏁 GÜNLÜK TARAMA BİTTİ. BOT UYKUYA GEÇİYOR!");
 }
 
-// Sistemi Test Et
-tumVitrinleriTara();
+// Her 5 günde bir gece saat 03:00'te çalıştır
+cron.schedule('0 3 */5 * *', () => {
+    console.log("⏰ Nöbet vakti geldi! 5 günlük tarama başlıyor...");
+    tumVitrinleriTara();
+});
