@@ -8,7 +8,7 @@ const cron = require('node-cron');
 
 // Keep-alive server to prevent the hosting instance from sleeping
 http.createServer((req, res) => res.end('Service is actively running.')).listen(process.env.PORT || 3000);
-
+function sleep() {
 // ==========================================
 // 1. CONFIGURATION & CONNECTIONS
 // ==========================================
@@ -173,3 +173,4 @@ cron.schedule('0 3 */5 * *', () => {
     console.log("[INFO] Scheduled cron event triggered. Commencing data synchronization...");
     tumVitrinleriTara();
 });
+}
